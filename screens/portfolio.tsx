@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, Modal } from 'react-native';
+import { View, FlatList, Text, Modal, Platform } from 'react-native';
 import { styles, colors } from '../styles/global';
 import { TouchableOpacity, State } from 'react-native-gesture-handler';
 import AddProject from './add_project';
@@ -20,6 +20,10 @@ export default function Portfolio({navigation}) {
             console.log(`\n>>> Portfolio - useEffect - Setting state:\n ${result}`);
             setProjects(result)
         }).catch(e => console.log(e));
+        Platform.select({
+            web: () => {console.log(">>> RUNNING IN WEB <<<");},
+            default: () => {console.log(">>> RUNNING IN NATIVE <<<");}
+          })();
     }, []);
 
     const addProject = (project) => {
