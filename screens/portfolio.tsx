@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, Modal, Platform } from 'react-native';
+import { View, FlatList, Text, Modal } from 'react-native';
 import { styles, colors } from '../styles/global';
-import { TouchableOpacity, State } from 'react-native-gesture-handler';
 import AddProject from './add_project';
-import MyButton from '../components/myButton';
 import ProjectItem from '../components/projectItem';
-import * as Constants from '../constants/storageKeys';
 import PortfolioService from '../services/portfolioService';
 import {MaterialIcons} from '@expo/vector-icons';
 
@@ -17,13 +14,9 @@ export default function Portfolio({navigation}) {
     
     useEffect(()=>{
         service.getProjects().then(result => {
-            console.log(`\n>>> Portfolio - useEffect - Setting state:\n ${result}`);
+            console.log(`\n>>> Portfolio - useEffect - Setting state:\n ${JSON.stringify(result)}`);
             setProjects(result)
         }).catch(e => console.log(e));
-        Platform.select({
-            web: () => {console.log(">>> RUNNING IN WEB <<<");},
-            default: () => {console.log(">>> RUNNING IN NATIVE <<<");}
-          })();
     }, []);
 
     const addProject = (project) => {
@@ -35,8 +28,9 @@ export default function Portfolio({navigation}) {
             setProjects((currentProject) => {
                 return [project, ...currentProject];
             });
-            console.log(`\n>>> Portfolio - addProject - Setting new state:\n ${projects}`);
-            service.addProjects(projects).then(result => console.log('Added project'));
+            console.log(`\n>>> Portfolio - addProject - Setting new state:\n ${JSON.stringify(projects)}`);
+            
+            service.addProjects(projects).then(result => console.log(`Added project. Result: ${result}`));
         }
         dismissModal();
     }
@@ -45,7 +39,6 @@ export default function Portfolio({navigation}) {
         setShowModal(false);
         console.log("dismissed modal");
     }
-    
     
     const goToAddProject = () => {
         // navigation.navigate('AddProject');

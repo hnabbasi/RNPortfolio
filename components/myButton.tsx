@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, View, Text } from 'react-native';
-import { styles, colors } from '../styles/global';
+import { Text, } from 'react-native';
+import { styles } from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function MyButton({title, onPress, isSecondary = false}) {
